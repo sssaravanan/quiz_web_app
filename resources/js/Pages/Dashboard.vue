@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
 import UserLayout from '@/Layouts/UserLayout.vue'
 
-defineProps({
+const props = defineProps({
     quizzes: {
         type: Array,
         default: () => []
@@ -26,9 +26,9 @@ const stats = ref({
 
 onMounted(() => {
     // Calculate stats from recentAttempts
-    if (Array.isArray(recentAttempts) && recentAttempts.length > 0) {
-        stats.value.totalAttempts = recentAttempts.length
-        const completedAttempts = recentAttempts.filter(a => a.status === 'completed')
+    if (Array.isArray(props.recentAttempts) && props.recentAttempts.length > 0) {
+        stats.value.totalAttempts = props.recentAttempts.length
+        const completedAttempts = props.recentAttempts.filter(a => a.status === 'completed')
         if (completedAttempts.length > 0) {
             stats.value.averageScore = (completedAttempts.reduce((sum, a) => sum + (a.score || 0), 0) / completedAttempts.length).toFixed(2)
         }
@@ -168,11 +168,14 @@ defineOptions({
                 <!-- Recent Attempts -->
                 <div class="card mb-4">
                     <div class="card-header bg-white border-bottom">
-                        <h5 class="mb-0">Recent Attempts</h5>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Recent Attempts</h5>
+                            <Link href="/attempts" class="btn btn-sm btn-outline-primary">View All</Link>
+                        </div>
                     </div>
                     <div class="card-body p-0">
-                        <div v-if="recentAttempts.length > 0" class="list-group list-group-flush">
-                            <div v-for="attempt in recentAttempts.slice(0, 5)" :key="attempt.id" class="list-group-item d-flex justify-content-between align-items-center p-3">
+                        <div v-if="props.recentAttempts.length > 0" class="list-group list-group-flush">
+                            <div v-for="attempt in props.recentAttempts.slice(0, 5)" :key="attempt.id" class="list-group-item d-flex justify-content-between align-items-center p-3">
                                 <div class="flex-grow-1">
                                     <h6 class="mb-1">{{ attempt.quiz.title }}</h6>
                                     <small class="text-muted">
@@ -186,14 +189,14 @@ defineOptions({
                                 <Link 
                                     v-if="attempt.status === 'completed'"
                                     :href="`/result/${attempt.id}`"
-                                    class="btn btn-sm btn-outline-primary ms-2">
+                                    class="btn btn-xs btn-outline-primary ms-2">
                                     View
                                 </Link>
                                 <button 
                                     v-else
                                     @click="() => resumeQuizAttempt(attempt.id)"
                                     :disabled="isResuming === attempt.id"
-                                    class="btn btn-sm btn-outline-warning ms-2">
+                                    class="btn btn-xs btn-outline-warning ms-2">
                                     <span v-if="isResuming === attempt.id">
                                         <span class="spinner-border spinner-border-sm me-1"></span>
                                         Resuming...

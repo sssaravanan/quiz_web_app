@@ -1,11 +1,20 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { Link, router, usePage } from '@inertiajs/vue3'
 
 const page = usePage()
+const showDropdown = ref(false)
 
 const isActive = (route) => {
     return page.url.startsWith(route)
+}
+
+const toggleDropdown = () => {
+    showDropdown.value = !showDropdown.value
+}
+
+const closeDropdown = () => {
+    showDropdown.value = false
 }
 
 const logout = () => {
@@ -43,6 +52,13 @@ const logout = () => {
                 </Link>
 
                 <Link 
+                    href="/attempts"
+                    :class="['nav-link', { active: isActive('/attempts') }]"
+                >
+                    <i class="fas fa-history me-2"></i>Attempts
+                </Link>
+
+                <Link 
                     href="/leaderboard"
                     :class="['nav-link', { active: isActive('/leaderboard') }]"
                 >
@@ -57,19 +73,36 @@ const logout = () => {
             <div class="bg-white border-bottom px-4 py-3 d-flex justify-content-between align-items-center">
                 <h6 class="mb-0 text-muted">Quiz Platform</h6>
                 
-                <div class="dropdown">
-                    <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                <div class="position-relative">
+                    <button 
+                        @click="toggleDropdown"
+                        class="btn btn-sm btn-light dropdown-toggle" 
+                        type="button"
+                        :aria-expanded="showDropdown"
+                    >
                         <i class="fas fa-user me-2"></i>{{ $page.props.auth.user.name }}
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
+                    <ul 
+                        v-show="showDropdown"
+                        class="dropdown-menu dropdown-menu-end show"
+                        style="position: absolute; top: 100%; right: 0; z-index: 1000;"
+                    >
                         <li>
-                            <Link href="/profile" class="dropdown-item">
+                            <Link 
+                                href="/profile" 
+                                class="dropdown-item"
+                                @click="closeDropdown"
+                            >
                                 <i class="fas fa-user me-2"></i>Profile
                             </Link>
                         </li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
-                            <button @click="logout" class="dropdown-item text-danger" style="border: none; background: none; cursor: pointer;">
+                            <button 
+                                @click="() => { logout(); closeDropdown(); }"
+                                class="dropdown-item text-danger" 
+                                style="border: none; background: none; cursor: pointer; width: 100%; text-align: left;"
+                            >
                                 <i class="fas fa-sign-out-alt me-2"></i>Logout
                             </button>
                         </li>

@@ -122,7 +122,10 @@ defineOptions({
                                 <i class="fas fa-home me-2"></i> Go to Dashboard
                             </Link>
                             <Link href="/quizzes" class="btn btn-outline-primary">
-                                <i class="fas fa-book me-2"></i> Browse Quizzes
+                                <i class="fas fa-book me-2"></i> View Quizzes
+                            </Link>
+                            <Link href="/attempts" class="btn btn-outline-primary">
+                                <i class="fas fa-history me-2"></i> View Attempts
                             </Link>
                             <Link href="/leaderboard" class="btn btn-outline-primary">
                                 <i class="fas fa-chart-bar me-2"></i> View Leaderboard

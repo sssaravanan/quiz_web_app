@@ -41,7 +41,7 @@ class DashboardController extends Controller
         return Inertia::render('Dashboard', [
             'quizzes' => $quizzes,
             'recentAttempts' => $recentAttempts,
-            'leaderboardTop' => $leaderboardTop,
+            'leaderboard' => $leaderboardTop,
         ]);
     }
 }

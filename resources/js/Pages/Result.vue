@@ -55,9 +55,38 @@ defineOptions({
 <template>
     <div class="row justify-content-center">
         <div class="col-md-8">
+            <!-- Actions -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-grid gap-2 d-md-flex justify-content-center">
+                        <Link 
+                            href="/dashboard"
+                            class="btn btn-outline-secondary"
+                        >
+                            <i class="fas fa-home me-2"></i> Back to Dashboard
+                        </Link>
+                        <Link 
+                            :href="`/review/${props.attempt.id}`"
+                            class="btn btn-outline-primary"
+                        >
+                            <i class="fas fa-eye me-2"></i> Review Answers
+                        </Link>
+                        <button 
+                            @click="retryQuiz"
+                            class="btn btn-primary"
+                        >
+                            <i class="fas fa-redo me-2"></i> Retry Quiz
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <!-- Result Card -->
             <div class="card mb-4">
-                <div class="card-body text-center py-5">
+                <div class="card-header bg-grey border-bottom d-flex justify-content-center align-items-center">
+                    <span class="mb-0"><strong>Quiz Result</strong></span>
+                </div>
+                <div class="card-body text-center py-4">
                     <h2 class="mb-3">{{ props.attempt.quiz.title }}</h2>
                     <h6 class="text-muted mb-4">Quiz Completed</h6>
 
@@ -121,32 +150,6 @@ defineOptions({
                         <p class="mb-0">
                             <strong>Completed:</strong> {{ new Date(props.attempt.completed_at).toLocaleString() }}
                         </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Actions -->
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-grid gap-2 d-md-flex justify-content-center">
-                        <Link 
-                            href="/dashboard"
-                            class="btn btn-outline-secondary"
-                        >
-                            <i class="fas fa-home me-2"></i> Back to Dashboard
-                        </Link>
-                        <Link 
-                            :href="`/review/${props.attempt.id}`"
-                            class="btn btn-outline-primary"
-                        >
-                            <i class="fas fa-eye me-2"></i> Review Answers
-                        </Link>
-                        <button 
-                            @click="retryQuiz"
-                            class="btn btn-primary"
-                        >
-                            <i class="fas fa-redo me-2"></i> Retry Quiz
-                        </button>
                     </div>
                 </div>
             </div>

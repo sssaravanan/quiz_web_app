@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\Log;
+
 class AttemptController extends Controller
 {
     public function saveAnswer(Request $request)
@@ -72,12 +74,16 @@ class AttemptController extends Controller
         // Calculate percentage
         $score = $totalQuestions > 0 ? round(($correctCount / $totalQuestions) * 100, 2) : 0;
 
+        Log::info("Attempt before update: ", $attempt->toArray());
+
         // Update attempt
         $attempt->update([
             'score' => $score,
             'status' => 'completed',
             'completed_at' => now(),
         ]);
+
+        Log::info("Attempt after update: ", $attempt->toArray());
 
         return response()->json([
             'success' => true,

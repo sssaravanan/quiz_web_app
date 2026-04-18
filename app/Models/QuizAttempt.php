@@ -23,6 +23,8 @@ class QuizAttempt extends Model
         'completed_at' => 'datetime',
     ];
 
+    public $appends = ['time_taken'];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -36,5 +38,13 @@ class QuizAttempt extends Model
     public function answers(): HasMany
     {
         return $this->hasMany(AttemptAnswer::class, 'attempt_id');
+    }
+
+    public function getTimeTakenAttribute(): ?string
+    {
+        if ($this->started_at && $this->completed_at) {
+            return (int) ($this->completed_at->diffInSeconds($this->started_at) / 60); // Time taken in minutes
+        }
+        return null;
     }
 }

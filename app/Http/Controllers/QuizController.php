@@ -26,7 +26,7 @@ class QuizController extends Controller
         ]);
     }
 
-    public function start(Quiz $quiz)
+    public function quizStart(Quiz $quiz)
     {
         $user = Auth::user();
 
@@ -63,6 +63,32 @@ class QuizController extends Controller
 
         return Inertia::render('QuizAttempt', [
             'attempt' => $attempt,
+            'questions' => $questions,
+        ]);
+    }
+
+    public function attemptStart(QuizAttempt $quizAttempt)
+    {
+        $user = Auth::user();
+            
+        if (!$quizAttempt) {
+            return response()->json(['error' => 'Attempt not found'], 404);
+        }
+
+        // Load all questions with options and attachments
+        $questions = $quizAttempt->quiz->questions()
+            ->with(['options', 'attachment'])
+            ->get()
+            ->map(fn($q) => [
+                'id' => $q->id,
+                'question_text' => $q->question_text,
+                'explanation' => $q->explanation,
+                'options' => $q->options,
+                'attachment' => $q->attachment,
+            ]);
+
+        return Inertia::render('QuizAttempt', [
+            'attempt' => $quizAttempt,
             'questions' => $questions,
         ]);
     }

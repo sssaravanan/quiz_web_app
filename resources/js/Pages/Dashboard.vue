@@ -37,11 +37,11 @@ onMounted(() => {
 
 const isResuming = ref(null)
 
-const resumeQuizAttempt = (quizId) => {
-    isResuming.value = quizId
+const resumeQuizAttempt = (attemptId) => {
+    isResuming.value = attemptId
 
     // Use Inertia router.visit() since controller returns Inertia::render()
-    router.visit(`/attempt/${quizId}`, {
+    router.visit(`/attempt/${attemptId}`, {
         method: 'get',
         onError: () => {
             alert('Failed to resume quiz. Please try again.')
@@ -191,10 +191,10 @@ defineOptions({
                                 </Link>
                                 <button 
                                     v-else
-                                    @click="() => resumeQuizAttempt(attempt.quiz.id)"
-                                    :disabled="isResuming === attempt.quiz.id"
+                                    @click="() => resumeQuizAttempt(attempt.id)"
+                                    :disabled="isResuming === attempt.id"
                                     class="btn btn-sm btn-outline-warning ms-2">
-                                    <span v-if="isResuming === attempt.quiz.id">
+                                    <span v-if="isResuming === attempt.id">
                                         <span class="spinner-border spinner-border-sm me-1"></span>
                                         Resuming...
                                     </span>

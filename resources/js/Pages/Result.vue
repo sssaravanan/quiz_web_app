@@ -115,6 +115,9 @@ defineOptions({
                                 {{ props.attempt.quiz.difficulty.charAt(0).toUpperCase() + props.attempt.quiz.difficulty.slice(1) }}
                             </span>
                         </p>
+                        <p class="mb-1">
+                            <strong>Time Taken:</strong> {{ Math.round(props.attempt.time_taken / 60) }} mins
+                        </p>
                         <p class="mb-0">
                             <strong>Completed:</strong> {{ new Date(props.attempt.completed_at).toLocaleString() }}
                         </p>

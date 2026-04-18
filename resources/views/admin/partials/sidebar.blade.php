@@ -19,5 +19,9 @@
         <a class="nav-link {{ request()->is('admin/questions*') ? 'active' : '' }}" href="{{ route('admin.questions.index') }}">
             <i class="fas fa-question-circle me-2"></i> Questions
         </a>
+
+        <a class="nav-link {{ request()->is('admin/reports*') ? 'active' : '' }}" href="{{ route('admin.reports') }}">
+            <i class="fas fa-bar-chart me-2"></i> Reports & Analytics
+        </a>
     </nav>
 </div>

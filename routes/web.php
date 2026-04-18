@@ -11,17 +11,32 @@ use App\Http\Controllers\ResultController;
 use App\Http\Controllers\LeaderboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    // Redirect authenticated users to their dashboard
+    if (Auth::check()) {
+        if (Auth::user()->hasRole('admin')) {
+            return redirect()->route('admin.dashboard');
+        }
+        return redirect()->route('dashboard');
+    }
+    return redirect()->route('login');
 });
+
+// Admin Routes - Only accessible to users with admin role
+Route::prefix('admin')
+    ->middleware(['auth', 'verified', 'role:admin'])
+    ->name('admin.')
+    ->group(function () {
+        Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
+        Route::resource('categories', AdminCategoryController::class);
+        Route::resource('quizzes', AdminQuizController::class);
+        Route::resource('questions', AdminQuestionController::class);
+        Route::get('/reports', [AdminDashboardController::class, 'reports'])->name('reports');
+    });
 
 // Authenticated User Routes
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -49,16 +64,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-// Admin Routes
-Route::prefix('admin')
-    ->middleware(['auth', 'verified', 'role:admin'])
-    ->name('admin.')
-    ->group(function () {
-        Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
-        Route::resource('categories', AdminCategoryController::class);
-        Route::resource('quizzes', AdminQuizController::class);
-        Route::resource('questions', AdminQuestionController::class);
-    });
 
 require __DIR__.'/auth.php';

@@ -11,6 +11,11 @@ class AttemptAnswer extends Model
         'attempt_id',
         'question_id',
         'selected_option_id',
+        'is_flagged',
+    ];
+
+    protected $casts = [
+        'is_flagged' => 'boolean',
     ];
 
     public function attempt(): BelongsTo

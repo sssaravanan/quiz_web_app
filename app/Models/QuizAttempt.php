@@ -23,6 +23,18 @@ class QuizAttempt extends Model
         'completed_at' => 'datetime',
     ];
 
+    public $appends = ['time_taken'];
+
+    /**
+     * Override update to prevent started_at from being modified after creation
+     */
+    public function update(array $attributes = [], array $options = [])
+    {
+        // Remove started_at from update to prevent accidental overwrites
+        unset($attributes['started_at']);
+        return parent::update($attributes, $options);
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -36,5 +48,13 @@ class QuizAttempt extends Model
     public function answers(): HasMany
     {
         return $this->hasMany(AttemptAnswer::class, 'attempt_id');
+    }
+
+    public function getTimeTakenAttribute(): ?string
+    {
+        if ($this->started_at && $this->completed_at) {
+            return (int) ($this->completed_at->diffInSeconds($this->started_at) / 60); // Time taken in minutes
+        }
+        return null;
     }
 }

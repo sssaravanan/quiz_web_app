@@ -15,6 +15,19 @@ class HandleInertiaRequests extends Middleware
     protected $rootView = 'app';
 
     /**
+     * Handle the request - skip for admin routes
+     */
+    public function handle(Request $request, \Closure $next)
+    {
+        // Skip Inertia middleware for admin routes - they use Blade templates
+        if ($request->is('admin*')) {
+            return $next($request);
+        }
+        
+        return parent::handle($request, $next);
+    }
+
+    /**
      * Determine the current asset version.
      */
     public function version(Request $request): ?string

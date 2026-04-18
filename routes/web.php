@@ -30,7 +30,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Quizzes
     Route::get('/quizzes', [QuizController::class, 'list'])->name('quizzes.list');
     Route::get('/quiz/{quiz}/start', [QuizController::class, 'start'])->name('quiz.start');
-    Route::get('/attempt/{attempt}', [QuizController::class, 'start'])->name('attempt.show');
+    Route::get('/attempt/{quiz}', [QuizController::class, 'start'])->name('attempt.show');
     
     // Results & Review
     Route::get('/result/{attempt}', [ResultController::class, 'show'])->name('result.show');

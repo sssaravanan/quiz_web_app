@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { Link } from '@inertiajs/vue3'
+import { Link, router } from '@inertiajs/vue3'
 import UserLayout from '@/Layouts/UserLayout.vue'
 
 defineProps({
@@ -34,6 +34,23 @@ onMounted(() => {
         }
     }
 })
+
+const isResuming = ref(null)
+
+const resumeQuizAttempt = (quizId) => {
+    isResuming.value = quizId
+
+    // Use Inertia router.visit() since controller returns Inertia::render()
+    router.visit(`/attempt/${quizId}`, {
+        method: 'get',
+        onError: () => {
+            alert('Failed to resume quiz. Please try again.')
+        },
+        onFinish: () => {
+            isResuming.value = null
+        },
+    })
+}
 
 defineOptions({
     layout: UserLayout,
@@ -88,8 +105,8 @@ defineOptions({
 
         <div class="row">
             <!-- Left: Available Quizzes -->
-            <div class="col-lg-8 mb-4">
-                <div class="card h-100 border-0 shadow-sm transition-hover rounded-4 overflow-hidden">
+            <div class="col-lg-7 mb-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
                     <div class="card-header bg-white border-bottom">
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">Available Quizzes</h5>
@@ -147,7 +164,7 @@ defineOptions({
             </div>
 
             <!-- Right: Recent Attempts & Leaderboard -->
-            <div class="col-lg-4">
+            <div class="col-lg-5">
                 <!-- Recent Attempts -->
                 <div class="card mb-4">
                     <div class="card-header bg-white border-bottom">
@@ -163,7 +180,7 @@ defineOptions({
                                             {{ attempt.score }}%
                                         </span>
                                         <span v-else class="badge bg-warning text-dark">In Progress</span>
-                                        <span class="ms-2">{{ new Date(attempt.created_at).toLocaleDateString() }}</span>
+                                        <span class="ms-2">{{ new Date(attempt.created_at).toLocaleString() }}</span>
                                     </small>
                                 </div>
                                 <Link 
@@ -172,12 +189,17 @@ defineOptions({
                                     class="btn btn-sm btn-outline-primary ms-2">
                                     View
                                 </Link>
-                                <Link 
+                                <button 
                                     v-else
-                                    :href="`/attempt/${attempt.id}`"
-                                    class="btn btn-sm btn-outline-primary ms-2">
-                                    Resume
-                                </Link>
+                                    @click="() => resumeQuizAttempt(attempt.quiz.id)"
+                                    :disabled="isResuming === attempt.quiz.id"
+                                    class="btn btn-sm btn-outline-warning ms-2">
+                                    <span v-if="isResuming === attempt.quiz.id">
+                                        <span class="spinner-border spinner-border-sm me-1"></span>
+                                        Resuming...
+                                    </span>
+                                    <span v-else>Resume</span>
+                                </button>
                             </div>
                         </div>
                         <div v-else class="text-center text-muted p-4">

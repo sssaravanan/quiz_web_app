@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { Link } from '@inertiajs/vue3'
 import UserLayout from '@/Layouts/UserLayout.vue'
 
 const props = defineProps({
@@ -31,9 +32,16 @@ defineOptions({
 <template>
     <div>
         <!-- Header -->
-        <div class="mb-4">
-            <h1 class="h3 mb-1">Review Answers</h1>
-            <p class="text-muted">{{ props.attempt.quiz?.title }}</p>
+        <div class="mb-4 d-flex justify-content-between">
+            <div>
+                <h1 class="h3 mb-1">Review Answers</h1>
+                <p class="text-muted">{{ props.attempt.quiz?.title }}</p>
+            </div>
+            <div>
+                <Link href="/dashboard" class="btn btn-sm btn-outline-secondary ms-3">
+                    <i class="bi bi-arrow-left"></i> Back to Dashboard
+                </Link>
+            </div>
         </div>
 
         <!-- Score Summary -->

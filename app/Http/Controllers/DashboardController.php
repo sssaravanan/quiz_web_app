@@ -20,7 +20,7 @@ class DashboardController extends Controller
             ->get();
 
         $recentAttempts = QuizAttempt::where('user_id', $user->id)
-            ->with('quiz')
+            ->with('quiz.category:id,name')
             ->latest()
             ->take(10)
             ->get();

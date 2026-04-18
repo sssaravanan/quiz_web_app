@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Kolkata',
 
     /*
     |--------------------------------------------------------------------------
@@ -121,6 +121,11 @@ return [
     'maintenance' => [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
+    ],
+
+    'format' => [
+        'date' => 'M d, Y',
+        'datetime' => 'M d, Y h:i A',
     ],
 
 ];

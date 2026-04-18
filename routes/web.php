@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\QuestionController;
+use App\Http\Controllers\Admin\QuizController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -14,14 +18,20 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+// Admin Routes
+Route::middleware(['auth', 'verified'])
+    ->name('admin.')
+    ->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::resource('categories', CategoryController::class);
+        Route::resource('quizzes', QuizController::class);
+        Route::resource('questions', QuestionController::class);
+    });
 
 require __DIR__.'/auth.php';

@@ -2,11 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\Seeder;
-
 use App\Models\User;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
 class UserSeeder extends Seeder
@@ -17,24 +15,49 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $adminRole = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
-        $userRole = Role::firstOrCreate(['name' => 'user', 'guard_name' => 'web']);
 
-        $admin = User::firstOrCreate(
+        $admin = User::updateOrCreate(
             ['email' => 'admin@test.com'],
             [
                 'name' => 'Admin User',
                 'password' => Hash::make(env('DEFAULT_PASSWORD', 'test@123')),
             ]
         );
-        $admin->assignRole($adminRole);
 
-        $user = User::firstOrCreate(
-            ['email' => 'user@test.com'],
-            [
-                'name' => 'Regular User',
-                'password' => Hash::make(env('DEFAULT_PASSWORD', 'test@123')),
-            ]
-        );
-        $user->assignRole($userRole);
+        if (! $admin->email_verified_at) {
+            $admin->forceFill(['email_verified_at' => now()])->save();
+        }
+
+        if (! $admin->hasRole($adminRole->name)) {
+            $admin->assignRole($adminRole);
+        }
+
+        $userRole = Role::firstOrCreate(['name' => 'user', 'guard_name' => 'web']);
+
+        $users = [
+            ['name' => 'Regular User', 'email' => 'user@test.com'],
+            ['name' => 'Priya Sharma', 'email' => 'priya.user@test.com'],
+            ['name' => 'Arjun Patel', 'email' => 'arjun.user@test.com'],
+            ['name' => 'Neha Verma', 'email' => 'neha.user@test.com'],
+            ['name' => 'Rahul Mehta', 'email' => 'rahul.user@test.com'],
+        ];
+
+        foreach ($users as $seedUser) {
+            $user = User::updateOrCreate(
+                ['email' => $seedUser['email']],
+                [
+                    'name' => $seedUser['name'],
+                    'password' => Hash::make(env('DEFAULT_PASSWORD', 'test@123')),
+                ]
+            );
+
+            if (! $user->email_verified_at) {
+                $user->forceFill(['email_verified_at' => now()])->save();
+            }
+
+            if (! $user->hasRole($userRole->name)) {
+                $user->assignRole($userRole);
+            }
+        }
     }
 }

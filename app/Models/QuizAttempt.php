@@ -53,8 +53,14 @@ class QuizAttempt extends Model
     public function getTimeTakenAttribute(): ?string
     {
         if ($this->started_at && $this->completed_at) {
-            return (int) ($this->completed_at->diffInSeconds($this->started_at) / 60); // Time taken in minutes
+            $seconds = (int) $this->started_at->diffInSeconds($this->completed_at);
+
+            $minutes = floor($seconds / 60);
+            $remainingSeconds = $seconds % 60;
+
+            return "{$minutes}m {$remainingSeconds}s";
         }
+
         return null;
     }
 }

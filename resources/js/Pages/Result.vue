@@ -145,7 +145,7 @@ defineOptions({
                             </span>
                         </p>
                         <p class="mb-1">
-                            <strong>Time Taken:</strong> {{ Math.round(props.attempt.time_taken / 60) }} mins
+                            <strong>Time Taken:</strong> {{ props.attempt.time_taken || '-'}}
                         </p>
                         <p class="mb-0">
                             <strong>Completed:</strong> {{ new Date(props.attempt.completed_at).toLocaleString() }}

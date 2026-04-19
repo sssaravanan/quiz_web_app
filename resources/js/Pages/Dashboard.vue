@@ -169,7 +169,7 @@ defineOptions({
                 <div class="card mb-4">
                     <div class="card-header bg-white border-bottom">
                         <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Recent Attempts</h5>
+                            <h5 class="mb-0">My Recent Attempts</h5>
                             <Link href="/attempts" class="btn btn-sm btn-outline-primary">View All</Link>
                         </div>
                     </div>

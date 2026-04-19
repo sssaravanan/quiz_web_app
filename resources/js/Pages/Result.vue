@@ -87,7 +87,7 @@ defineOptions({
                     <span class="mb-0"><strong>Quiz Result</strong></span>
                 </div>
                 <div class="card-body text-center py-4">
-                    <h2 class="mb-3">{{ props.attempt.quiz.title }}</h2>
+                    <h2 class="mb-3 fs-4">{{ props.attempt.quiz.title }}</h2>
                     <h6 class="text-muted mb-4">Quiz Completed</h6>
 
                     <!-- Score Circle -->
@@ -145,7 +145,7 @@ defineOptions({
                             </span>
                         </p>
                         <p class="mb-1">
-                            <strong>Time Taken:</strong> {{ Math.round(props.attempt.time_taken / 60) }} mins
+                            <strong>Time Taken:</strong> {{ props.attempt.time_taken || '-'}}
                         </p>
                         <p class="mb-0">
                             <strong>Completed:</strong> {{ new Date(props.attempt.completed_at).toLocaleString() }}

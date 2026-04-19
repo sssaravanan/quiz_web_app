@@ -24,8 +24,10 @@
                     <i class="fas fa-user"></i> {{ Auth::user()->name }}
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
+                    @if (!Auth::user()->hasRole('admin'))
                     <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Profile</a></li>
                     <li><hr class="dropdown-divider"></li>
+                    @endif
                     <li>
                         <form method="POST" action="{{ route('logout') }}" class="d-inline">
                             @csrf

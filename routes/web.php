@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\QuestionController as AdminQuestionController;
 use App\Http\Controllers\Admin\QuizController as AdminQuizController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\AttemptsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\QuizController;
@@ -35,6 +36,12 @@ Route::prefix('admin')
         Route::resource('categories', AdminCategoryController::class);
         Route::resource('quizzes', AdminQuizController::class);
         Route::resource('questions', AdminQuestionController::class);
+        
+        // User routes - specific routes before resource to avoid conflicts
+        Route::get('users/attempt/{attempt}', [AdminUserController::class, 'attemptReview'])->name('users.attempt.review');
+        Route::resource('users', AdminUserController::class);
+        Route::get('users/{user}/attempts', [AdminUserController::class, 'attempts'])->name('users.attempts');
+        
         Route::get('/reports', [AdminDashboardController::class, 'reports'])->name('reports');
     });
 

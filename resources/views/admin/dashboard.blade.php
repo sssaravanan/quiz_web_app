@@ -9,7 +9,7 @@
         <div class="card bg-primary text-white">
             <div class="card-body">
                 <h6 class="card-title">Total Categories</h6>
-                <h2>{{ \App\Models\Category::count() }}</h2>
+                <h2>{{ $categoriesCount }}</h2>
             </div>
         </div>
     </div>
@@ -18,7 +18,7 @@
         <div class="card bg-success text-white">
             <div class="card-body">
                 <h6 class="card-title">Total Quizzes</h6>
-                <h2>{{ \App\Models\Quiz::count() }}</h2>
+                <h2>{{ $quizzesCount }}</h2>
             </div>
         </div>
     </div>
@@ -27,7 +27,7 @@
         <div class="card bg-info text-white">
             <div class="card-body">
                 <h6 class="card-title">Total Questions</h6>
-                <h2>{{ \App\Models\Question::count() }}</h2>
+                <h2>{{ $questionsCount }}</h2>
             </div>
         </div>
     </div>
@@ -36,7 +36,7 @@
         <div class="card bg-warning text-white">
             <div class="card-body">
                 <h6 class="card-title">Total Attempts</h6>
-                <h2>{{ \App\Models\QuizAttempt::count() }}</h2>
+                <h2>{{ $quizAttemptsCount }}</h2>
             </div>
         </div>
     </div>
@@ -49,7 +49,7 @@
                 <h5 class="mb-0">Recent Quizzes</h5>
             </div>
             <div class="card-body">
-                <table class="table table-sm">
+                <table class="DataTable table table-sm">
                     <thead>
                         <tr>
                             <th>Title</th>
@@ -58,7 +58,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse(\App\Models\Quiz::latest()->limit(5)->get() as $quiz)
+                        @forelse($recentQuizzes as $quiz)
                             <tr>
                                 <td>{{ Str::limit($quiz->title, 30) }}</td>
                                 <td>{{ $quiz->category->name }}</td>
@@ -85,7 +85,7 @@
                 <h5 class="mb-0">Quiz Attempts</h5>
             </div>
             <div class="card-body">
-                <table class="table table-sm">
+                <table class="DataTable table table-sm">
                     <thead>
                         <tr>
                             <th>User</th>
@@ -95,7 +95,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse(\App\Models\QuizAttempt::latest()->limit(5)->get() as $attempt)
+                        @forelse($recentAttempts as $attempt)
                             <tr>
                                 <td>{{ $attempt->user->name }}</td>
                                 <td>{{ Str::limit($attempt->quiz->title, 20) }}</td>
@@ -117,4 +117,10 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('extra_js')
+<script>
+    initDataTable('table.DataTable');
+</script>
 @endsection

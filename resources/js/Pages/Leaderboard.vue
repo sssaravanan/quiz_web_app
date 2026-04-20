@@ -35,15 +35,12 @@ defineOptions({
                     <tbody>
                         <tr v-for="(user, index) in leaderboard" :key="user.id">
                             <td>
-                                <span class="badge bg-primary" style="font-size: 1.1rem; padding: 0.5rem 0.8rem;">
+                                <span class="badge bg-primary" style="font-size: 1.1rem; padding: 0.2rem 0.5rem;">
                                     {{ index + 1 }}
                                 </span>
                             </td>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    <div class="bg-secondary rounded-circle me-3" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; color: white;">
-                                        <i class="fas fa-user"></i>
-                                    </div>
                                     <div>
                                         <h6 class="mb-0">{{ user.name }}</h6>
                                         <small class="text-muted">{{ user.email }}</small>

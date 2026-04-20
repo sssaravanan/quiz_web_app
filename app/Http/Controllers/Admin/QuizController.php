@@ -24,10 +24,10 @@ class QuizController extends Controller
 
     protected function validationRules() {
         return [
-            'title' => 'required|string|max:255',
+            'title' => 'required|string|min:3|max:255',
             'category_id' => 'required|exists:categories,id',
             'difficulty' => 'required|in:easy,medium,hard',
-            'time_limit' => 'required|integer|min:1',
+            'time_limit' => 'required|integer|min:1|max:180',
             'is_published' => 'nullable|boolean',
         ];
     }

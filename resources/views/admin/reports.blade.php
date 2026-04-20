@@ -143,7 +143,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-hover table-sm">
+                        <table class="DataTable table table-hover table-sm">
                             <thead class="table-light">
                                 <tr>
                                     <th>User</th>
@@ -188,7 +188,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-hover table-sm">
+                        <table class="DataTable table table-hover table-sm">
                             <thead class="table-light">
                                 <tr>
                                     <th>Quiz</th>
@@ -229,7 +229,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-hover">
+                        <table class="DataTable table table-hover">
                             <thead class="table-light">
                                 <tr>
                                     <th>Quiz Title</th>
@@ -269,6 +269,9 @@
 
 @section('extra_js')
 <script>
+
+    initDataTable('table.DataTable');
+
     // Prepare data for charts
     const avgScoresData = {!! json_encode($avgScoresDistribution) !!};
     const mostAttemptedData = {!! json_encode($mostAttemptedQuizzes) !!};

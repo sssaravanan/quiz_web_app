@@ -13,8 +13,15 @@ class QuestionAttachment extends Model
         'path',
     ];
 
+    public $appends = ['path_url'];
+
     public function question(): BelongsTo
     {
         return $this->belongsTo(Question::class);
+    }
+
+    public function getPathUrlAttribute(): string
+    {
+        return asset('storage/' . $this->path);
     }
 }

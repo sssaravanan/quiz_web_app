@@ -209,7 +209,7 @@ defineOptions({
                                 <i class="fas fa-flag me-2"></i>
                                 {{ flagged.has(currentQuestion.id) ? 'Flagged' : 'Flag Question' }}
                             </button>
-                            <small class="d-block mt-2 text-muted" v-if="isSaving">Saving...</small>
+                            <!-- <small class="d-block mt-2 text-muted" v-if="isSaving">Saving...</small> -->
                         </div>
                     </div>
 

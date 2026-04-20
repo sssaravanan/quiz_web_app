@@ -98,7 +98,9 @@ class DashboardController extends Controller
             ->take(10)
             ->get();
 
-        $totalUsers = User::count();
+        $totalUsers = User::whereHas('roles', function ($query) {
+            $query->where('name', 'user');
+        })->count();
         $totalQuizzes = Quiz::count();
         $totalAttempts = QuizAttempt::count();
         $avgScoreOverall = DB::table('quiz_attempts')

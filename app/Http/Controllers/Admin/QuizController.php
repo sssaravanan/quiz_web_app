@@ -73,6 +73,11 @@ class QuizController extends Controller
 
     public function destroy(Quiz $quiz)
     {
+        if ($quiz->questions()->count() > 0) {
+            return redirect()->route('admin.quizzes.index')
+                ->with('error', 'Cannot delete quiz with associated questions. Please delete those questions first.');
+        }
+        
         $quiz->delete();
 
         return redirect()->route('admin.quizzes.index')

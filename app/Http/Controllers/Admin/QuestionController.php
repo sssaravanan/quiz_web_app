@@ -27,7 +27,7 @@ class QuestionController extends Controller
     protected function validationRules() {
         return [
             'quiz_id' => 'required|exists:quizzes,id',
-            'question_text' => 'required|string',
+            'question_text' => 'required|string|min:5|max:1000',
             'explanation' => 'nullable|string',
             'option_text' => 'required|array|size:4',
             'option_text.*' => 'required|string',

@@ -12,15 +12,23 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('admin.dashboard');
+        $data = [
+            'categoriesCount' => \App\Models\Category::count(),
+            'quizzesCount' => Quiz::count(),
+            'questionsCount' => \App\Models\Question::count(),
+            'quizAttemptsCount' => QuizAttempt::count(),
+
+            'recentQuizzes' => Quiz::with('category:id,name')->latest()->limit(5)->get(),
+            'recentAttempts' => QuizAttempt::with([
+                'user:id,name,email',
+                'quiz:id,title'
+            ])->latest()->limit(5)->get(),
+        ];
+        return view('admin.dashboard', $data);
     }
 
-    /**
-     * Display Reports & Analytics
-     */
     public function reports()
     {
-        // 1. User Performance - Top performing users
         $userPerformance = DB::table('users')
             ->select(
                 'users.id',
@@ -46,7 +54,6 @@ class DashboardController extends Controller
             ->take(10)
             ->get();
 
-        // 2. Most Attempted Quizzes
         $mostAttemptedQuizzes = DB::table('quizzes')
             ->select(
                 'quizzes.id',
@@ -63,7 +70,6 @@ class DashboardController extends Controller
             ->take(10)
             ->get();
 
-        // 3. Average Scores Distribution
         $avgScoresDistribution = DB::table('quiz_attempts')
             ->select(
                 DB::raw('ROUND(AVG(score), 2) as avg_score'),
@@ -77,7 +83,6 @@ class DashboardController extends Controller
             ->take(30)
             ->get();
 
-        // 4. Drop-off Analysis (in-progress attempts)
         $dropoffAnalysis = DB::table('quiz_attempts')
             ->select(
                 'quizzes.title as quiz_name',
@@ -92,7 +97,6 @@ class DashboardController extends Controller
             ->take(10)
             ->get();
 
-        // 5. Summary Statistics
         $totalUsers = User::count();
         $totalQuizzes = Quiz::count();
         $totalAttempts = QuizAttempt::count();

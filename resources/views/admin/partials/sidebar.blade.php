@@ -20,6 +20,10 @@
             <i class="fas fa-question-circle me-2"></i> Questions
         </a>
 
+        <a class="nav-link {{ request()->is('admin/users*') ? 'active' : '' }}" href="{{ route('admin.users.index') }}">
+            <i class="fas fa-users me-2"></i> Users
+        </a>
+
         <a class="nav-link {{ request()->is('admin/reports*') ? 'active' : '' }}" href="{{ route('admin.reports') }}">
             <i class="fas fa-bar-chart me-2"></i> Reports & Analytics
         </a>

@@ -32,4 +32,15 @@ class AttemptAnswer extends Model
     {
         return $this->belongsTo(Option::class, 'selected_option_id');
     }
+
+    public function getIsCorrectAttribute(): bool
+    {
+        // If no option was selected, it's incorrect
+        if (!$this->selectedOption) {
+            return false;
+        }
+        
+        // Check if the selected option is marked as correct
+        return $this->selectedOption->is_correct ?? false;
+    }
 }

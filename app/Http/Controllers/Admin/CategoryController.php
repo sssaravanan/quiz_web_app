@@ -50,6 +50,11 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
+        if ($category->quizzes()->count() > 0) {
+            return redirect()->route('admin.categories.index')
+                ->with('error', 'Cannot delete category with associated quizzes. Please reassign or delete those quizzes first.');
+        }
+        
         $category->delete();
 
         return redirect()->route('admin.categories.index')

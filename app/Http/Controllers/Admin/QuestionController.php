@@ -122,9 +122,9 @@ class QuestionController extends Controller
 
     public function destroy(Question $question)
     {
-        // Delete attachment if exists
-        if ($question->attachment) {
-            Storage::disk('public')->delete($question->attachment->path);
+        if ($question->options()->count() > 0) {
+            return redirect()->route('admin.questions.index')
+                ->with('error', 'Cannot delete question with existing options. Please delete options first.');
         }
 
         $question->delete();

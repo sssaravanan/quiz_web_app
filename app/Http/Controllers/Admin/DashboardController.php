@@ -49,6 +49,7 @@ class DashboardController extends Controller
                     ->whereIn('role_id', DB::table('roles')->where('name', 'admin')->pluck('id'))
                     ->pluck('model_id'));
             })
+            ->where('users.deleted_at', null)
             ->groupBy('users.id', 'users.name', 'users.email')
             ->orderByDesc('avg_score')
             ->take(10)

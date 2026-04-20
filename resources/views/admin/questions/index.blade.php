@@ -7,8 +7,8 @@
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3>Questions</h3>
     <a href="{{ route('admin.questions.create') }}" class="btn btn-primary btn-sm">
-        <i class="fas fa-plus"></i> Add Question
-    </a>
+            <i class="fas fa-plus"></i> Add Question
+        </a>
 </div>
 
 <div class="card p-3">
@@ -62,5 +62,6 @@
             document.getElementById('deleteForm').submit();
         }
     }
+
 </script>
 @endsection

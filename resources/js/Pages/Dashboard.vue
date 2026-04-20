@@ -106,7 +106,7 @@ defineOptions({
         <div class="row">
             <!-- Left: Available Quizzes -->
             <div class="col-lg-7 mb-4">
-                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
+                <div class="card h-100 shadow-sm rounded-2 overflow-hidden">
                     <div class="card-header bg-white border-bottom">
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">Available Quizzes</h5>
@@ -166,7 +166,7 @@ defineOptions({
             <!-- Right: Recent Attempts & Leaderboard -->
             <div class="col-lg-5">
                 <!-- Recent Attempts -->
-                <div class="card mb-4">
+                <div class="card mb-4 shadow-sm rounded-2 overflow-hidden">
                     <div class="card-header bg-white border-bottom">
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">My Recent Attempts</h5>
@@ -213,7 +213,7 @@ defineOptions({
                 </div>
 
                 <!-- Leaderboard Preview -->
-                <div class="card">
+                <div class="card shadow-sm rounded-2 overflow-hidden">
                     <div class="card-header bg-white border-bottom">
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">Top Scorers</h5>

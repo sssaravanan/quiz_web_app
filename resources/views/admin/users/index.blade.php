@@ -30,12 +30,12 @@
                         <td>{{ $user->email }}</td>
                         <td>
                             <span class="badge bg-info">
-                                {{ number_format($user->avg_score, 2) }}
+                                {{ number_format($user->avg_score, 2) }}%
                             </span>
                         </td>
                         <td>
                             <span class="badge bg-success">
-                                {{ number_format($user->max_score, 2) }}
+                                {{ number_format($user->max_score, 2) }}%
                             </span>
                         </td>
                         <td>{{ $user->created_at->format(config('app.format.datetime')) }}</td>

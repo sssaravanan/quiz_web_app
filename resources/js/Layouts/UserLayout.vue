@@ -73,7 +73,7 @@ const logout = () => {
             <div class="bg-white border-bottom px-4 py-3 d-flex justify-content-between align-items-center">
                 <h6 class="mb-0 text-muted">Quiz Platform</h6>
                 
-                <div class="position-relative">
+                <div class="position-relative" style="z-index: 9999;">
                     <button 
                         @click="toggleDropdown"
                         class="btn btn-sm btn-light dropdown-toggle" 
